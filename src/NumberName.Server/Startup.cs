@@ -30,7 +30,8 @@ namespace NumberName.Server
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "NumberName.Server", Version = "v1" });
+                var (apiModuleName, apiModuleVersion) = ModuleInfo;
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = apiModuleName, Version = apiModuleVersion });
             });
         }
 
@@ -41,10 +42,12 @@ namespace NumberName.Server
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "NumberName.Server v1"));
+                var (apiModuleName, apiModuleVersion) = ModuleInfo;
+                var apiModule = $"{apiModuleName} {apiModuleVersion}";
+                app.UseSwaggerUI(c => c.SwaggerEndpoint(SwaggerUrl, apiModule));
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
 
@@ -55,5 +58,14 @@ namespace NumberName.Server
                 endpoints.MapControllers();
             });
         }
+
+        #region Api Module <-> Swagger Configuration
+
+        private (string Name, string Version) ModuleInfo =>
+            (Configuration["ApiModule:Name"], Configuration["ApiModule:Version"]);
+
+        private string SwaggerUrl => Configuration["SwaggerUrl"];
+
+        #endregion
     }
 }

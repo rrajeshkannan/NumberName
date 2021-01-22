@@ -52,16 +52,28 @@ namespace NumberName.Server.NumberToName.Services
             else
             {
                 value
-                    .ConvertForPeriod(valueInWords, Period.Billion, BillionPeriodBegin)
-                    .ConvertForPeriod(valueInWords, Period.Million, MillionPeriodBegin)
-                    .ConvertForPeriod(valueInWords, Period.Thousand, ThousandPeriodBegin)
-                    .ConvertForPeriod(valueInWords, Period.Hundred, HundredPeriodBegin)
+                    .ConvertForBillion(valueInWords)
+                    .ConvertForMillion(valueInWords)
+                    .ConvertForThousand(valueInWords)
+                    .ConvertForHundred(valueInWords)
                     .ConvertSubHundred(valueInWords)
                     .ConvertSubTwenty(valueInWords);
             }
 
             return BuildNumberWord(valueInWords);
         }
+
+        private static UInt32 ConvertForBillion(this UInt32 value, StringBuilder valueInWords) 
+            => value.ConvertForPeriod(valueInWords, Period.Billion, BillionPeriodBegin);
+
+        private static UInt32 ConvertForMillion(this UInt32 value, StringBuilder valueInWords) 
+            => value.ConvertForPeriod(valueInWords, Period.Million, MillionPeriodBegin);
+
+        private static UInt32 ConvertForThousand(this UInt32 value, StringBuilder valueInWords)
+            => value.ConvertForPeriod(valueInWords, Period.Thousand, ThousandPeriodBegin);
+
+        private static UInt32 ConvertForHundred(this UInt32 value, StringBuilder valueInWords)
+            => value.ConvertForPeriod(valueInWords, Period.Hundred, HundredPeriodBegin);
 
         private static UInt32 ConvertForPeriod(this UInt32 value, StringBuilder valueInWords, Period period, UInt32 periodBegin)
         {

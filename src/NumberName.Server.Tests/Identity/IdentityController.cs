@@ -10,7 +10,7 @@ namespace NumberName.Server.Tests.Identity
     public class IdentityController
     {
         [Fact]
-        public void HttpGetServerIdentity()
+        public void HttpGet()
         {
             // Arrange
             var apiServerName = "Test-Server";

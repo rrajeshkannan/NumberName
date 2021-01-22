@@ -1,6 +1,7 @@
-using Xunit;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
+using Xunit;
+using SUT = NumberName.Server.Identity.Services;
 
 namespace NumberName.Server.Tests
 {
@@ -24,7 +25,7 @@ namespace NumberName.Server.Tests
                 .AddInMemoryCollection(configurationValues)
                 .Build();
 
-            var service = new Identity.Services.IdentityService(configuration);
+            var service = new SUT.IdentityService(configuration);
 
             // Act
             var identity = service.GetServerIdentity();
